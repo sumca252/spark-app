@@ -1,6 +1,7 @@
 # Spark-app 
 
 # Pre-requisites 
+- [Node.js](https://nodejs.org/en/download/)
 - [Cordova](https://cordova.apache.org/docs/en/latest/guide/cli/)
 - [Java JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Gradle](https://gradle.org/install/)
