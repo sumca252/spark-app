@@ -10,6 +10,12 @@
 
 # Installation
 
+```
+npm init --yes
+npm install mithril --save
+npm install webpack webpack-cli --save-dev
+```
+
 ## Cordova
 ```
 npm install -g cordova
@@ -38,6 +44,9 @@ sudo apt install -y openjdk-8-jdk gradle android-studio android-sdk
 
 
 ## Build the app
+
+To build the app you can use ```npm start```, it tells the webpack to watch the file system and automatically recreate bundle.js if file changes are detected. If you change the style, you can run ```npm run style ```.
+
 ```
 cordova build
 ```
