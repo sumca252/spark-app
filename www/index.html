@@ -11,11 +11,12 @@
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
         <meta http-equiv="Content-Security-Policy" content="default-src
-        'self' data: https://ssl.gstatic.com 'unsafe-eval';
+        'self' https://nominatim.openstreetmap.org
+        data: https://ssl.gstatic.com 'unsafe-eval';
         style-src 'self' fonts.googleapis.com 'unsafe-inline';
         font-src fonts.gstatic.com;
         media-src *;
-        img-src 'self' data: content:;">
+        img-src 'self' https://*.tile.openstreetmap.org data: content:;">
 
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
