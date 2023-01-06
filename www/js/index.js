@@ -1,77 +1,72 @@
 /**
- * Contains all routes 
+ * Contains all routes
  */
 
 "use strict";
 
-import m from "mithril";
-
+import { history } from "./views/history.js";
 // Navigation
 import { layout } from "./views/layout.js";
-
-// view pages
-import { map } from "./views/map.js";
-import { history } from "./views/history.js";
 import { login } from "./views/login.js";
-import { payment } from "./views/payment.js";
+import m from "mithril";
+// view pages
+import { overview } from "./views/overview.js";
 import { register } from "./views/register.js";
-import { settings } from "./views/settings.js";
 
-
-document.addEventListener('deviceready', onDeviceReady, false);
-
-
+document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady() {
-
     m.route(document.body, "/", {
         "/": {
-            render: function() {
-                return m(layout, {
-                    nav: "#!/"
-                }, m(map));
-            }
+            render: () => {
+                return m(
+                    layout,
+                    {
+                        selected: "home",
+                        requireAuth: true, // requires authentication
+                    },
+                    m(overview)
+                );
+            },
         },
-
- 
-        "/payment": {
-            render: function() {
-                return m(layout, {
-                    nav: "#!/payment"
-                }, m(payment));
-            }
-        },
-
         "/history": {
-            render: function() {
-                return m(layout, {
-                    nav: "#!/history"
-                }, m(history));
-            }
+            render: () => {
+                return m(
+                    layout,
+                    {
+                        selected: "history",
+                        requireAuth: true, // requires authentication
+                    },
+                    m(history)
+                );
+            },
         },
-
-        "/settings": {
-            render: function() {
-                return m(layout, {
-                    nav: "#!/settings"
-                }, m(settings));
-            }
-        },
-
-
-        "/register": {
-            render: function() {
-                return m(layout, {
-                    nav: "#!/register"
-                }, m(register));
-            }
-        },
-
         "/login": {
-            render: function() {
-                return m(layout, {
-                    nav: "#!/login"
-                }, m(login));
-            }
-        }
+            render: () => {
+                return m(
+                    layout,
+                    {
+                        selected: "login",
+                    },
+                    m(login)
+                );
+            },
+        },
+        "/register": {
+            render: () => {
+                return m(
+                    layout,
+                    {
+                        selected: "login",
+                    },
+                    m(register)
+                );
+            },
+        },
+        "/logout": {
+            render: () => {
+                auth.token = "";
+                return m(layout, { selected: "login" }, m(home));
+            },
+        },
     });
 }

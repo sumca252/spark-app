@@ -25,6 +25,7 @@ node_modules/
 /plugins/
 /platforms/
 
-
 # build webpack files
 www/dist/
+
+.env
