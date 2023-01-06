@@ -82,6 +82,5 @@ let auth = {
         m.route.set("/login");
     },
 };
-/* firstName, lastName, username, email, password, phone, roleId  */
 
 export { auth };
