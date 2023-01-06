@@ -4,7 +4,6 @@
 
 "use strict";
 
-import { history } from "./views/history.js";
 // Navigation
 import { layout } from "./views/layout.js";
 import { login } from "./views/login.js";
@@ -25,18 +24,6 @@ function onDeviceReady() {
                         requireAuth: true, // requires authentication
                     },
                     m(overview)
-                );
-            },
-        },
-        "/history": {
-            render: () => {
-                return m(
-                    layout,
-                    {
-                        selected: "history",
-                        requireAuth: true, // requires authentication
-                    },
-                    m(history)
                 );
             },
         },
