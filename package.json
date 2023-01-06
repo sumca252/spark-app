@@ -1,39 +1,49 @@
 {
-  "name": "live.isal.app.spark",
-  "displayName": "SparkApp",
-  "version": "1.0.0",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --watch --config webpack.dev.config.js",
-    "build": "webpack --config webpack.prod.config.js",
-    "style": "sass www/base.scss www/style.css --no-source-map"
-  },
-  "keywords": [
-    "ecosystem:cordova"
-  ],
-  "author": "Apache Cordova Team",
-  "license": "Apache-2.0",
-  "dependencies": {
-    "cordova": "^11.0.0",
-    "cordova-android": "10.1.2",
-    "cordova-browser": "6.0.0",
-    "leaflet": "^1.9.3",
-    "mithril": "^2.2.2",
-    "sass": "^1.56.2"
-  },
-  "cordova": {
-    "platforms": [
-      "browser",
-      "android"
-    ]
-  },
-  "devDependencies": {
-    "css-loader": "^6.7.3",
-    "file-loader": "^6.2.0",
-    "style-loader": "^3.3.1",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1"
-  }
+    "name": "live.isal.app.spark",
+    "displayName": "SparkApp",
+    "version": "1.0.0",
+    "description": "A sample Apache Cordova application that responds to the deviceready event.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "webpack --watch --config webpack.dev.config.js",
+        "build": "webpack --config webpack.prod.config.js",
+        "style": "npm run style-light && npm run style-min",
+        "style-light": "sass www/style/scss/base.scss www/style/css/style.css --no-source-map",
+        "style-min": "sass www/style/scss/base.scss www/style/css/style.min.css --no-source-map --style compressed",
+        "watch-min": "sass www/style/scss/base.scss www/style/css/style.min.css --no-source-map --watch",
+        "browser": "npm run style && npm run start && cordova run browser",
+        "android": "npm run style && npm run start && cordova run android"
+    },
+    "keywords": [
+        "ecosystem:cordova"
+    ],
+    "author": "Apache Cordova Team",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "cordova": "^11.0.0",
+        "cordova-android": "10.1.2",
+        "cordova-browser": "6.0.0",
+        "dotenv-webpack": "^8.0.1",
+        "leaflet": "^1.9.3",
+        "mithril": "^2.2.2",
+        "sass": "^1.56.2"
+    },
+    "cordova": {
+        "platforms": [
+            "browser",
+            "android"
+        ],
+        "plugins": {
+            "cordova-plugin-geolocation": {}
+        }
+    },
+    "devDependencies": {
+        "cordova-plugin-geolocation": "^4.1.0",
+        "css-loader": "^6.7.3",
+        "file-loader": "^6.2.0",
+        "style-loader": "^3.3.1",
+        "webpack": "^5.75.0",
+        "webpack-cli": "^5.0.1"
+    }
 }

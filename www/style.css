@@ -1,9 +1,0 @@
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-@import '../www/normalize.min.css';
-/* history page */ /* home/map page (overview map with available scooters) */
-#map {
-  width: 345px;
-  height: 440px;
-}
-
-/* login page */ /* payment page */ /* register page */ /* settings page */
