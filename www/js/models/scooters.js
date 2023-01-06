@@ -48,7 +48,6 @@ let scooters = {
                 },
             })
             .then((result) => {
-                // get random 1000 scooters
                 scooters.allScooters = result.data.getAllScooters.slice(
                     0,
                     1000

@@ -26,8 +26,6 @@ const locationMarker = L.icon({
 });
 
 const showMap = () => {
-    // zoom level here (13 is default) focus on user location if possible (if not, focus on sweden)
-
     map = L.map("map").setView([62.5, 15.5], 6);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -55,17 +53,20 @@ const showPosition = () => {
     }
 };
 
-const showStations = () => {
-    const stationsIcon = L.icon({
-        iconUrl: parkingIcon,
-        iconSize: [24, 24],
-        iconAnchor: [12, 12],
-        popupAnchor: [0, 0],
-    });
+const showStations = (stations) => {
+    stations.forEach((station) => {
+        const markerIcon = L.icon({
+            iconUrl: `../../img/${station.zone_type.replace(
+                " Station",
+                ""
+            )}.png`,
+            iconSize: [24, 24],
+            iconAnchor: [12, 12],
+            popupAnchor: [0, 0],
+        });
 
-    stations.allStations.forEach((station) => {
         L.marker([station.latitude, station.longitude], {
-            icon: stationsIcon,
+            icon: markerIcon,
         })
             .bindPopup(
                 `
@@ -103,8 +104,15 @@ const showScooters = () => {
     });
 };
 
+const removeLayers = () => {
+    map.eachLayer((layer) => {
+        if (layer instanceof L.Marker) {
+            map.removeLayer(layer);
+        }
+    });
+};
+
 let overview = {
-    showScooters: false,
     oninit: () => {
         position.getPosition();
         stations.getAllStations();
@@ -115,12 +123,8 @@ let overview = {
     },
     view: () => {
         showPosition();
-        //showStations();
-
-        showScooters();
 
         return m("div", [
-            //select options
             m("div.title"),
             m("div.input-field col s12", [
                 m(
@@ -132,48 +136,14 @@ let overview = {
                                 e.target.value
                             );
 
-                            // remove the old markers
-
-                            stations.station.map((station) => {
-                                // clear the old markers
-                                scooters.allScooters = [];
-                                // add the new markers
-                                const markerIcon = L.icon({
-                                    iconUrl: `../../img/${station.zone_type.replace(
-                                        " Station",
-                                        ""
-                                    )}.png`,
-                                    iconSize: [24, 24],
-                                    iconAnchor: [12, 12],
-                                    popupAnchor: [0, 0],
-                                });
-
-                                L.marker(
-                                    [station.latitude, station.longitude],
-                                    {
-                                        icon: markerIcon,
-                                    }
-                                )
-                                    .bindPopup(
-                                        `
-                                        <p class="station">
-                                            Station type: ${station.zone_type.replace(
-                                                "Station",
-                                                ""
-                                            )}
-                                        </p>`
-                                    )
-                                    .addTo(map);
-
-                                // remove the old markers
-                            });
+                            showStations(stations.station);
                         },
                     },
                     [
                         m(
                             "option",
                             { value: "", disabled: true, selected: true },
-                            "Choose your option"
+                            "Show Stations"
                         ),
                         m(
                             "option",
