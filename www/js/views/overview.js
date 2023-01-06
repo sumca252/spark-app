@@ -131,19 +131,36 @@ let overview = {
                     "select",
                     {
                         onchange: async (e) => {
-                            stations.station = [];
-                            const results = await stations.getStationByZoneType(
-                                e.target.value
-                            );
+                            const zones = e.target.value
+                                ? e.target.value.includes("Station")
+                                : false;
 
-                            showStations(stations.station);
+                            if (zones) {
+                                const results =
+                                    await stations.getStationByZoneType(
+                                        e.target.value
+                                    );
+
+                                removeLayers();
+                                showStations(stations.station);
+                            }
+
+                            if (!zones) {
+                                removeLayers();
+                                showScooters();
+                            }
                         },
                     },
                     [
                         m(
                             "option",
                             { value: "", disabled: true, selected: true },
-                            "Show Stations"
+                            "Choose your option"
+                        ),
+                        m(
+                            "option",
+                            { value: "Available Scooters" },
+                            "Available Scooters"
                         ),
                         m(
                             "option",
