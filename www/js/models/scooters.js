@@ -1,7 +1,5 @@
 /**
- *
- *
- *
+ * Scooters model
  */
 
 "use strict";
@@ -15,6 +13,7 @@ let scooters = {
 
     allScooters: [],
     scooter: [],
+    active: [],
     getAllScooters: () => {
         const query = `
             query {
@@ -48,12 +47,62 @@ let scooters = {
                 },
             })
             .then((result) => {
-                scooters.allScooters = result.data.getAllScooters.slice(
-                    0,
-                    1000
-                );
+                scooters.allScooters = result.data.getAllScooters;
 
-                console.log(scooters.allScooters);
+                scooters.scooter = result.data.getAllScooters.slice(0, 1000);
+            });
+    },
+    rentScooter: (scooterId, userId, long, lat) => {
+        const query = `
+            mutation {
+                rentScooter(
+                    id:"${scooterId}",
+                    user_id: "${userId}",
+                    longitude:"${long}",
+                    latitude: "${lat}"
+                ) {
+                    id  
+                }
+            }
+        `;
+
+        return m
+            .request({
+                method: "POST",
+                url: `${scooters.url}/graphql`,
+                body: { query: query },
+                headers: { "Content-Type": "application/json" },
+            })
+            .then((result) => result)
+            .catch((err) => {
+                console.log(err);
+            });
+    },
+    returnScooter: (scooterId, userId, endLong, endLat, distance) => {
+        const query = `
+            mutation {
+                returnScooter(
+                    id:"${scooterId}",
+                    user_id: "${userId}",
+                    longitude:"${long}",
+                    latitude: "${lat}"
+                    distance: "${distance}"
+                ) {
+                    id  
+                }
+            }
+        `;
+
+        return m
+            .request({
+                method: "POST",
+                url: `${scooters.url}/graphql`,
+                body: { query: query },
+                headers: { "Content-Type": "application/json" },
+            })
+            .then((result) => result)
+            .catch((err) => {
+                console.log(err);
             });
     },
 };

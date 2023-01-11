@@ -10,7 +10,9 @@ let layout = {
             m("main.container#container", vnode.children),
             m(
                 "nav.bottom-nav#navigation",
-                m(menu, { selected: vnode.attrs.selected })
+                m(menu, {
+                    selected: vnode.attrs.selected,
+                })
             ),
         ];
     },

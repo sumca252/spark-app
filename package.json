@@ -7,13 +7,13 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "webpack --watch --config webpack.dev.config.js",
-        "build": "webpack --config webpack.prod.config.js",
+        "build": "webpack --config webpack.prod.config.js && cordova run browser",
         "style": "npm run style-light && npm run style-min",
         "style-light": "sass www/style/scss/base.scss www/style/css/style.css --no-source-map",
         "style-min": "sass www/style/scss/base.scss www/style/css/style.min.css --no-source-map --style compressed",
         "watch-min": "sass www/style/scss/base.scss www/style/css/style.min.css --no-source-map --watch",
-        "browser": "npm run style && npm run start && cordova run browser",
-        "android": "npm run style && npm run start && cordova run android"
+        "browser": "npm run style && npm run build",
+        "android": "npm run style && npm run start"
     },
     "keywords": [
         "ecosystem:cordova"
@@ -25,6 +25,8 @@
         "cordova-android": "10.1.2",
         "cordova-browser": "6.0.0",
         "dotenv-webpack": "^8.0.1",
+        "geo-distance-js": "^1.0.0",
+        "geolib": "^3.3.3",
         "leaflet": "^1.9.3",
         "mithril": "^2.2.2",
         "sass": "^1.56.2"

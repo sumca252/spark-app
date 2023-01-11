@@ -6,7 +6,10 @@
 
 import "leaflet/dist/leaflet.css";
 
+import * as dist from "geo-distance-js";
+
 import L from "leaflet";
+import { auth } from "../models/auth";
 import locIcon from "../../img/loc.png";
 import locationIcon from "../../img/location.png";
 import m from "mithril";
@@ -20,6 +23,13 @@ let map;
 
 const locationMarker = L.icon({
     iconUrl: locationIcon,
+    iconSize: [24, 24],
+    iconAnchor: [12, 12],
+    popupAnchor: [0, 0],
+});
+
+const scootersIcon = L.icon({
+    iconUrl: scooterIcon,
     iconSize: [24, 24],
     iconAnchor: [12, 12],
     popupAnchor: [0, 0],
@@ -49,7 +59,7 @@ const showPosition = () => {
             }
         )
             .addTo(map)
-            .bindPopup("You are here");
+            .bindTooltip("You are here");
     }
 };
 
@@ -79,29 +89,117 @@ const showStations = (stations) => {
 };
 
 const showScooters = () => {
-    const scootersIcon = L.icon({
-        iconUrl: scooterIcon,
-        iconSize: [24, 24],
-        iconAnchor: [12, 12],
-        popupAnchor: [0, 0],
-    });
+    let previousLongitude, previousLatitude;
 
-    scooters.allScooters.forEach((scooter) => {
+    scooters.scooter.forEach((scooter) => {
         if (scooter.status.status === "Available") {
             scootersIcon.options.iconUrl = scooterIcon;
-        }
 
-        L.marker([scooter.latitude, scooter.longitude], {
-            icon: scootersIcon,
-        })
-            .bindPopup(
-                `
-                <p class="scooter">
-                    Scooter status: ${scooter.status.status}
-                </p>`
-            )
-            .addTo(map);
+            L.marker([scooter.latitude, scooter.longitude], {
+                icon: scootersIcon,
+                id: scooter.id,
+            })
+                .bindPopup(
+                    `
+                    <div class="scooter">
+
+                        <p>Status: <span class="status">${scooter.status.status}</span></p>
+                        <p>Battery: <span class="battery_charging_full">${scooter.battery}</span> %</p>
+                        <p>Speed: <span class="speed">20 km/h</span></p> 
+                        <button type="button" class="rentBtn btn">Rent scooter</button>
+                    </div>
+                    `
+                )
+                .addTo(map)
+                .on("popupopen", function (e) {
+                    const rentBtn = document.querySelector(".rentBtn");
+                    rentBtn.addEventListener("click", () => {
+                        if (!auth.isLoggedIn) {
+                            m.route.set("/login");
+                        } else {
+                            previousLatitude = scooter.latitude;
+                            previousLongitude = scooter.longitude;
+
+                            rentScooter(
+                                e.target.options.id,
+                                auth.userId,
+                                scooter.longitude,
+                                scooter.latitude
+                            );
+                        }
+                    });
+                });
+        } else if (scooter.status.status === "Rented") {
+            scootersIcon.options.iconUrl = scooterIcon;
+
+            L.marker([scooter.latitude, scooter.longitude], {
+                icon: scootersIcon,
+                id: scooter.id,
+            })
+                .bindPopup(
+                    `
+                        <div class="scooter">
+    
+                            <p>Status: <span class="status">${scooter.status.status}</span></p>
+                            <p>Battery: <span class="battery_charging_full">${scooter.battery}</span> %</p>
+                            <p>Speed: <span class="speed">20 km/h</span></p> 
+                            <button type="button" class="returnBtn btn">Return scooter</button>
+                        </div>
+                        `
+                )
+                .addTo(map)
+                .on("popupopen", function (e) {
+                    const rentBtn = document.querySelector(".returnBtn");
+                    rentBtn.addEventListener("click", () => {
+                        if (!auth.isLoggedIn) {
+                            m.route.set("/login");
+                        } else {
+                            let distance = dist.getDistance(
+                                scooter.latitude,
+                                scooter.longitude,
+                                previousLatitude,
+                                previousLongitude
+                            );
+
+                            // console.log("distance: ", distance);
+
+                            if (distance) {
+                                returnScooter(
+                                    e.target.options.id,
+                                    auth.userId,
+                                    scooter.longitude,
+                                    scooter.latitude,
+                                    distance
+                                );
+                            }
+                        }
+                    });
+                });
+        }
     });
+};
+
+const rentScooter = async (scooterId, userId, longitude, latitude) => {
+    const result = await scooters.rentScooter(
+        scooterId,
+        userId,
+        longitude,
+        latitude
+    );
+};
+
+const returnScooter = async (scooterId, userId, endLong, endLat, distance) => {
+    const result = await scooters.returnScooter(
+        scooterId,
+        userId,
+        endLong,
+        endLat,
+        distance
+    );
+
+    if (result) {
+        showRentalStatus = false;
+    }
 };
 
 const removeLayers = () => {
@@ -125,8 +223,8 @@ let overview = {
         showPosition();
 
         return m("div", [
-            m("div.title"),
-            m("div.input-field col s12", [
+            m("div.title", "Overview"),
+            m("div.stationsBox", [
                 m(
                     "select",
                     {
@@ -146,6 +244,7 @@ let overview = {
                             }
 
                             if (!zones) {
+                                console.log(e.target.value);
                                 removeLayers();
                                 showScooters();
                             }
@@ -157,11 +256,7 @@ let overview = {
                             { value: "", disabled: true, selected: true },
                             "Choose your option"
                         ),
-                        m(
-                            "option",
-                            { value: "Available Scooters" },
-                            "Available Scooters"
-                        ),
+                        m("option", { value: "Scooters" }, "Scooters"),
                         m(
                             "option",
                             { value: "Charging Station" },

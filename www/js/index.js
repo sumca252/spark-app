@@ -21,7 +21,6 @@ function onDeviceReady() {
                     layout,
                     {
                         selected: "home",
-                        requireAuth: true, // requires authentication
                     },
                     m(overview)
                 );

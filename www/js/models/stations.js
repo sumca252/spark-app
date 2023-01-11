@@ -1,7 +1,5 @@
 /**
- *
- *
- *
+ * Stations Model
  */
 
 "use strict";

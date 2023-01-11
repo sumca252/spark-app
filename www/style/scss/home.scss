@@ -1,9 +1,29 @@
 /* overview map */
 #map {
     position: absolute;
-    top: 307px;
+    top: 260px;
     left: 0;
     right: 0;
     bottom: 75px;
     width: 100%;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.border {
+    border: 1px solid $dark-grey;
+}
+
+.box-shadow {
+    box-shadow: 0 0 5px $black;
+}
+
+.rounded {
+    border-radius: 5px;
 }
