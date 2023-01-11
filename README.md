@@ -11,9 +11,7 @@
 # Installation
 
 ```
-npm init --yes
-npm install mithril --save
-npm install webpack webpack-cli --save-dev
+npm install 
 ```
 
 ## Cordova
