@@ -13,7 +13,7 @@ let scooters = {
 
     allScooters: [],
     scooter: [],
-    active: [],
+    status: [],
     getAllScooters: () => {
         const query = `
             query {
@@ -61,7 +61,8 @@ let scooters = {
                     longitude:"${long}",
                     latitude: "${lat}"
                 ) {
-                    id  
+                    id
+                    success  
                 }
             }
         `;
@@ -73,22 +74,57 @@ let scooters = {
                 body: { query: query },
                 headers: { "Content-Type": "application/json" },
             })
-            .then((result) => result)
+            .then((result) => {
+                scooters.status = result.data.rentScooter;
+
+                localStorage.setItem(
+                    "scooterStatus",
+                    JSON.stringify(scooters.status)
+                );
+            })
             .catch((err) => {
                 console.log(err);
             });
     },
     returnScooter: (scooterId, userId, endLong, endLat, distance) => {
+        const logId = JSON.parse(localStorage.getItem("scooterStatus")).id;
+        const status = JSON.parse(
+            localStorage.getItem("scooterStatus")
+        ).success;
+
+        scooters.getLogById(logId);
+
+        const data = JSON.parse(localStorage.getItem("scooterTime"));
+        const startTime = data[0].start_time;
+
+        const today = new Date();
+        const date =
+            today.getFullYear() +
+            "-" +
+            (today.getMonth() + 1) +
+            "-" +
+            today.getDate();
+
+        const time = today.getHours() + ":" + today.getMinutes();
+
+        const endTime = date + " " + time;
+
+        const total = new Date(endTime) - new Date(startTime);
+
+        const tolalTimeInMinutes = Math.floor(total / 60000);
+
         const query = `
             mutation {
                 returnScooter(
                     id:"${scooterId}",
                     user_id: "${userId}",
-                    longitude:"${long}",
-                    latitude: "${lat}"
-                    distance: "${distance}"
+                    longitude:"${endLong}",
+                    latitude: "${endLat}"
+                    time: "${tolalTimeInMinutes}",
+                    station: "${status}"
                 ) {
-                    id  
+                    id
+                    success
                 }
             }
         `;
@@ -100,7 +136,38 @@ let scooters = {
                 body: { query: query },
                 headers: { "Content-Type": "application/json" },
             })
-            .then((result) => result)
+            .then((result) => {
+                localStorage.removeItem("scooterStatus");
+                localStorage.removeItem("scooterTime");
+                console.log("result: ", result.data.returnScooter);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    },
+    getLogById: (id) => {
+        const query = `
+            query {
+                getLogById(id: "${id}") {
+                    id,
+                    start_time,
+                }
+            }
+        `;
+
+        return m
+            .request({
+                method: "POST",
+                url: `${scooters.url}/graphql`,
+                body: { query: query },
+                headers: { "Content-Type": "application/json" },
+            })
+            .then((result) => {
+                localStorage.setItem(
+                    "scooterTime",
+                    JSON.stringify(result.data.getLogById)
+                );
+            })
             .catch((err) => {
                 console.log(err);
             });

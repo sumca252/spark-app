@@ -6,8 +6,6 @@
 
 import "leaflet/dist/leaflet.css";
 
-import * as dist from "geo-distance-js";
-
 import L from "leaflet";
 import { auth } from "../models/auth";
 import locIcon from "../../img/loc.png";
@@ -113,19 +111,18 @@ const showScooters = () => {
                 .addTo(map)
                 .on("popupopen", function (e) {
                     const rentBtn = document.querySelector(".rentBtn");
-                    rentBtn.addEventListener("click", () => {
+                    rentBtn.addEventListener("click", async () => {
                         if (!auth.isLoggedIn) {
                             m.route.set("/login");
                         } else {
-                            previousLatitude = scooter.latitude;
-                            previousLongitude = scooter.longitude;
-
-                            rentScooter(
+                            await rentScooter(
                                 e.target.options.id,
                                 auth.userId,
                                 scooter.longitude,
                                 scooter.latitude
                             );
+
+                            m.redraw();
                         }
                     });
                 });
@@ -150,28 +147,19 @@ const showScooters = () => {
                 .addTo(map)
                 .on("popupopen", function (e) {
                     const rentBtn = document.querySelector(".returnBtn");
-                    rentBtn.addEventListener("click", () => {
+                    rentBtn.addEventListener("click", async () => {
                         if (!auth.isLoggedIn) {
                             m.route.set("/login");
                         } else {
-                            let distance = dist.getDistance(
-                                scooter.latitude,
+                            await returnScooter(
+                                e.target.options.id,
+                                auth.userId,
                                 scooter.longitude,
-                                previousLatitude,
-                                previousLongitude
+                                scooter.latitude,
+                                scooters.status
                             );
 
-                            // console.log("distance: ", distance);
-
-                            if (distance) {
-                                returnScooter(
-                                    e.target.options.id,
-                                    auth.userId,
-                                    scooter.longitude,
-                                    scooter.latitude,
-                                    distance
-                                );
-                            }
+                            m.redraw();
                         }
                     });
                 });
@@ -186,20 +174,18 @@ const rentScooter = async (scooterId, userId, longitude, latitude) => {
         longitude,
         latitude
     );
+
+    console.log(scooters.status);
 };
 
-const returnScooter = async (scooterId, userId, endLong, endLat, distance) => {
+const returnScooter = async (scooterId, userId, endLong, endLat, status) => {
     const result = await scooters.returnScooter(
         scooterId,
         userId,
         endLong,
         endLat,
-        distance
+        status
     );
-
-    if (result) {
-        showRentalStatus = false;
-    }
 };
 
 const removeLayers = () => {
