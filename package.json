@@ -26,7 +26,6 @@
         "cordova-browser": "6.0.0",
         "cordova-plugin-splashscreen": "6.0.2",
         "dotenv-webpack": "^8.0.1",
-        "geo-distance-js": "^1.0.0",
         "geolib": "^3.3.3",
         "leaflet": "^1.9.3",
         "mithril": "^2.2.2",
