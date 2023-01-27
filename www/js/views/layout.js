@@ -1,7 +1,7 @@
 "use strict";
 
-import m from "mithril";
-import { menu } from "./menu";
+const m = require("mithril");
+const menu = require("./menu.js");
 
 let layout = {
     view: function (vnode) {
@@ -18,4 +18,4 @@ let layout = {
     },
 };
 
-export { layout };
+module.exports = layout;

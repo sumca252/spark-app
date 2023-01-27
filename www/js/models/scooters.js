@@ -4,7 +4,7 @@
 
 "use strict";
 
-import m from "mithril";
+const m = require("mithril");
 
 let scooters = {
     url: process.env.DEV_API_BASE_URL
@@ -174,4 +174,4 @@ let scooters = {
     },
 };
 
-export { scooters };
+module.exports = scooters;
