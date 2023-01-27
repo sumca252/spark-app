@@ -29,3 +29,7 @@ node_modules/
 www/dist/
 
 .env
+
+# build test coverage files
+.nyc_output
+coverage/
