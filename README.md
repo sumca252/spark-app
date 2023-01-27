@@ -19,6 +19,13 @@ npm install
 npm install -g cordova
 ```
 
+### Add platform
+
+```
+cordova platform add browser
+cordova platform add android
+```
+
 ## Homebrew
 ```
 brew install gradel
@@ -43,7 +50,7 @@ sudo apt install -y openjdk-8-jdk gradle android-studio android-sdk
 
 ## Build the app
 
-To build the app you can use ```npm start```, it tells the webpack to watch the file system and automatically recreate bundle.js if file changes are detected. If you change the style, you can run ```npm run style ```.
+To build the app you can use ```npm run dev```, it tells the webpack to watch the file system and automatically recreate bundle.js if file changes are detected. If you change the style, you can run ```npm run style ```.
 
 ```
 cordova build
@@ -60,3 +67,18 @@ cordova run android
 cordova run browser
 ```
 
+## Test the app
+
+```
+# For both tests and coverage
+npm run test
+
+# only tests
+npm run mocha
+```
+
+### Eslint
+
+```
+npm run lint
+```
