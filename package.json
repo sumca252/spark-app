@@ -5,9 +5,14 @@
     "description": "A sample Apache Cordova application that responds to the deviceready event.",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "nyc --all mocha 'test/*.js'",
+        "mocha": "mocha 'test/*.js' --timeout 10000",
         "start": "webpack --config webpack.dev.config.js",
+        "dev": "webpack --config webpack.dev.config.js --watch",
         "build": "webpack --config webpack.prod.config.js",
+        "fix": "npx eslint --fix \"www/js/**/*.js\"",
+        "lint": "npx eslint \"www/js/**/*.js\"",
+        "clean-all": "rm -rf node_modules platforms plugins package-lock.json coverage .nyc_output www/dist",
         "style": "npm run style-light && npm run style-min",
         "style-light": "sass www/style/scss/base.scss www/style/css/style.css --no-source-map",
         "style-min": "sass www/style/scss/base.scss www/style/css/style.min.css --no-source-map --style compressed",
@@ -44,9 +49,17 @@
         }
     },
     "devDependencies": {
+        "chai": "^4.3.7",
         "cordova-plugin-geolocation": "^4.1.0",
         "css-loader": "^6.7.3",
+        "eslint": "^8.32.0",
+        "eslint-plugin-react": "^7.32.1",
         "file-loader": "^6.2.0",
+        "jsdom": "^21.1.0",
+        "mithril-query": "^4.0.1",
+        "mocha": "^10.2.0",
+        "nyc": "^15.1.0",
+        "sinon": "^15.0.1",
         "style-loader": "^3.3.1",
         "webpack": "^5.75.0",
         "webpack-cli": "^5.0.1"
