@@ -1,4 +1,6 @@
 # Spark-app 
+[![Build Status](https://scrutinizer-ci.com/g/sumca252/spark-app/badges/build.png?b=main)](https://scrutinizer-ci.com/g/sumca252/spark-app/build-status/main) [![Code Coverage](https://scrutinizer-ci.com/g/sumca252/spark-app/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/sumca252/spark-app/?branch=main) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sumca252/spark-app/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/sumca252/spark-app/?branch=main)
+
 
 # Pre-requisites 
 - [Node.js](https://nodejs.org/en/download/)
