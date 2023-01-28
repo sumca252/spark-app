@@ -4,7 +4,7 @@
  */
 "use strict";
 
-import m from "mithril";
+const m = require("mithril");
 
 const position = {
     currentPosition: {},
@@ -29,4 +29,4 @@ const position = {
     },
 };
 
-export default position;
+module.exports = position;

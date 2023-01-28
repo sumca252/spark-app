@@ -1,11 +1,6 @@
-/**
- *
- *
- */
-
 "use strict";
 
-import m from "mithril";
+const m = require("mithril");
 
 let auth = {
     url: process.env.DEV_API_BASE_URL
@@ -86,4 +81,4 @@ let auth = {
     },
 };
 
-export { auth };
+module.exports = auth;

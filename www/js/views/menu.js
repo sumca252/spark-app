@@ -1,12 +1,12 @@
 /**
  * Contains navigation
- *
  */
 
 "use strict";
 
-import { auth } from "../models/auth.js";
-import m from "mithril";
+const m = require("mithril");
+const auth = require("../models/auth.js");
+
 
 let menu = {
     view: (vnode) => {
@@ -18,13 +18,14 @@ let menu = {
             },
         };
 
+        /*
         let register = {
             name: "Register",
             class: "register",
             nav: () => {
                 m.route.set("/register");
             },
-        };
+        };*/
 
         let logout = {
             name: "Logout",
@@ -62,4 +63,4 @@ let menu = {
     },
 };
 
-export { menu };
+module.exports = menu;

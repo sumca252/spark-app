@@ -1,5 +1,6 @@
-import { auth } from "../models/auth";
-import m from "mithril";
+
+const m = require("mithril");
+const auth = require("../models/auth.js");
 
 let login = {
     view: () => {
@@ -47,4 +48,4 @@ let login = {
     },
 };
 
-export { login };
+module.exports = login;

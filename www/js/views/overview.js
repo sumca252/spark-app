@@ -4,18 +4,23 @@
 
 "use strict";
 
-import "leaflet/dist/leaflet.css";
+require("leaflet/dist/leaflet.css");
 
-import L from "leaflet";
-import { auth } from "../models/auth";
+const m = require("mithril");
+const L = require("leaflet");
+
+const auth = require("../models/auth.js");
+
+// icons
 import locIcon from "../../img/loc.png";
 import locationIcon from "../../img/location.png";
-import m from "mithril";
 import parkingIcon from "../../img/Parking.png";
-import position from "../models/position.js";
 import scooterIcon from "../../img/scooter.png";
-import { scooters } from "../models/scooters.js";
-import { stations } from "../models/stations.js";
+
+const position = require("../models/position.js");
+let scooters = require("../models/scooters.js");
+let stations = require("../models/stations.js");
+
 
 let map;
 
@@ -111,6 +116,7 @@ const showScooters = () => {
                 .addTo(map)
                 .on("popupopen", function (e) {
                     const rentBtn = document.querySelector(".rentBtn");
+
                     rentBtn.addEventListener("click", async () => {
                         if (!auth.isLoggedIn) {
                             m.route.set("/login");
@@ -147,6 +153,7 @@ const showScooters = () => {
                 .addTo(map)
                 .on("popupopen", function (e) {
                     const rentBtn = document.querySelector(".returnBtn");
+
                     rentBtn.addEventListener("click", async () => {
                         if (!auth.isLoggedIn) {
                             m.route.set("/login");
@@ -269,3 +276,4 @@ let overview = {
 };
 
 export { overview };
+//module.exports = overview;

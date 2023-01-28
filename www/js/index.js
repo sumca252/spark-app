@@ -4,13 +4,22 @@
 
 "use strict";
 
+
+const m = require("mithril");
+
+// models
+const auth = require("./models/auth");
+
 // Navigation
-import { layout } from "./views/layout.js";
-import { login } from "./views/login.js";
-import m from "mithril";
+const layout = require("./views/layout.js");
+const login = require("./views/login.js");
+
 // view pages
+const register = require("./views/register.js");
+
+//const overview = require("./views/overview.js");
 import { overview } from "./views/overview.js";
-import { register } from "./views/register.js";
+
 
 document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady() {
@@ -51,7 +60,7 @@ function onDeviceReady() {
         "/logout": {
             render: () => {
                 auth.token = "";
-                return m(layout, { selected: "login" }, m(home));
+                return m(layout, { selected: "login" }, m(login));
             },
         },
     });
