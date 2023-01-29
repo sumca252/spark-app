@@ -1,7 +1,7 @@
 # Spark-app 
 [![Build Status](https://scrutinizer-ci.com/g/sumca252/spark-app/badges/build.png?b=main)](https://scrutinizer-ci.com/g/sumca252/spark-app/build-status/main) [![Code Coverage](https://scrutinizer-ci.com/g/sumca252/spark-app/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/sumca252/spark-app/?branch=main) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sumca252/spark-app/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/sumca252/spark-app/?branch=main)
 
-![msedge_40hFpkOOmd](https://user-images.githubusercontent.com/70111426/215340820-59a84fd4-476e-4a51-99ce-543252ab2fe7.png)
+![app](https://user-images.githubusercontent.com/70111426/215340991-285196ba-2137-4a2c-8625-58f4d09f21be.png)
 
 # Pre-requisites 
 
