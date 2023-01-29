@@ -1,8 +1,11 @@
 # Spark-app 
 [![Build Status](https://scrutinizer-ci.com/g/sumca252/spark-app/badges/build.png?b=main)](https://scrutinizer-ci.com/g/sumca252/spark-app/build-status/main) [![Code Coverage](https://scrutinizer-ci.com/g/sumca252/spark-app/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/sumca252/spark-app/?branch=main) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sumca252/spark-app/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/sumca252/spark-app/?branch=main)
 
+![msedge_40hFpkOOmd](https://user-images.githubusercontent.com/70111426/215340820-59a84fd4-476e-4a51-99ce-543252ab2fe7.png)
 
 # Pre-requisites 
+
+
 - [Node.js](https://nodejs.org/en/download/)
 - [Cordova](https://cordova.apache.org/docs/en/latest/guide/cli/)
 - [Java JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
