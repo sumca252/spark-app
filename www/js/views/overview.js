@@ -14,7 +14,7 @@ const auth = require("../models/auth.js");
 // icons
 import locIcon from "../../img/loc.png";
 import locationIcon from "../../img/location.png";
-import parkingIcon from "../../img/Parking.png";
+import parkingIcon from "../../img/parking.png";
 import scooterIcon from "../../img/scooter.png";
 
 const position = require("../models/position.js");
@@ -23,6 +23,8 @@ let stations = require("../models/stations.js");
 
 
 let map;
+let updateView = false;
+let startTime;
 
 const locationMarker = L.icon({
     iconUrl: locationIcon,
@@ -92,8 +94,6 @@ const showStations = (stations) => {
 };
 
 const showScooters = () => {
-    let previousLongitude, previousLatitude;
-
     scooters.scooter.forEach((scooter) => {
         if (scooter.status.status === "Available") {
             scootersIcon.options.iconUrl = scooterIcon;
@@ -108,7 +108,7 @@ const showScooters = () => {
 
                         <p>Status: <span class="status">${scooter.status.status}</span></p>
                         <p>Battery: <span class="battery_charging_full">${scooter.battery}</span> %</p>
-                        <p>Speed: <span class="speed">20 km/h</span></p> 
+                        <p>Max speed: <span class="speed">20 km/h</span></p> 
                         <button type="button" class="rentBtn btn">Rent scooter</button>
                     </div>
                     `
@@ -128,6 +128,14 @@ const showScooters = () => {
                                 scooter.latitude
                             );
 
+                            const logId = JSON.parse(localStorage.getItem("scooterStatus")).id;
+
+                            await scooters.getLogById(logId);
+                            const data = JSON.parse(localStorage.getItem("scooterTime"));
+
+                            startTime = data[0].start_time;
+
+                            updateView = true;
                             m.redraw();
                         }
                     });
@@ -145,7 +153,8 @@ const showScooters = () => {
     
                             <p>Status: <span class="status">${scooter.status.status}</span></p>
                             <p>Battery: <span class="battery_charging_full">${scooter.battery}</span> %</p>
-                            <p>Speed: <span class="speed">20 km/h</span></p> 
+                            <p>Max speed: <span class="speed">20 km/h</span></p> 
+                            <p>Renttime: <span class="">${startTime}</span></p>
                             <button type="button" class="returnBtn btn">Return scooter</button>
                         </div>
                         `
@@ -166,6 +175,8 @@ const showScooters = () => {
                                 scooters.status
                             );
 
+                            startTime = "";
+                            updateView = true;
                             m.redraw();
                         }
                     });
@@ -208,6 +219,14 @@ let overview = {
         position.getPosition();
         stations.getAllStations();
         scooters.getAllScooters();
+
+        setInterval(async () => {
+            if (updateView) {
+                await scooters.getAllScooters();
+                showScooters();
+                updateView = false;
+            }
+        }, 1000);
     },
     oncreate: () => {
         showMap();

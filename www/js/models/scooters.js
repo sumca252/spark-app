@@ -52,7 +52,7 @@ let scooters = {
                 scooters.scooter = result.data.getAllScooters.slice(0, 1000);
             });
     },
-    rentScooter: (scooterId, userId, long, lat) => {
+    rentScooter: async (scooterId, userId, long, lat) => {
         const query = `
             mutation {
                 rentScooter(
@@ -67,7 +67,7 @@ let scooters = {
             }
         `;
 
-        return m
+        return await m
             .request({
                 method: "POST",
                 url: `${scooters.url}/graphql`,
@@ -86,13 +86,13 @@ let scooters = {
                 console.log(err);
             });
     },
-    returnScooter: (scooterId, userId, endLong, endLat, distance) => {
-        const logId = JSON.parse(localStorage.getItem("scooterStatus")).id;
+    returnScooter: async (scooterId, userId, endLong, endLat) => {
+        //const logId = JSON.parse(localStorage.getItem("scooterStatus")).id;
         const status = JSON.parse(
             localStorage.getItem("scooterStatus")
         ).success;
 
-        scooters.getLogById(logId);
+        //await scooters.getLogById(logId);
 
         const data = JSON.parse(localStorage.getItem("scooterTime"));
         const startTime = data[0].start_time;
@@ -129,7 +129,7 @@ let scooters = {
             }
         `;
 
-        return m
+        return await m
             .request({
                 method: "POST",
                 url: `${scooters.url}/graphql`,
@@ -145,7 +145,7 @@ let scooters = {
                 console.log(err);
             });
     },
-    getLogById: (id) => {
+    getLogById: async (id) => {
         const query = `
             query {
                 getLogById(id: "${id}") {
@@ -155,7 +155,7 @@ let scooters = {
             }
         `;
 
-        return m
+        return await m
             .request({
                 method: "POST",
                 url: `${scooters.url}/graphql`,
