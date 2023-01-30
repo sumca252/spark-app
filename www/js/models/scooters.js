@@ -87,12 +87,12 @@ let scooters = {
             });
     },
     returnScooter: async (scooterId, userId, endLong, endLat) => {
-        //const logId = JSON.parse(localStorage.getItem("scooterStatus")).id;
-        const status = JSON.parse(
-            localStorage.getItem("scooterStatus")
-        ).success;
+        const logId = JSON.parse(localStorage.getItem("scooterStatus")).id;
 
-        //await scooters.getLogById(logId);
+        const status = JSON.parse(localStorage.getItem("scooterStatus"))
+            .success;
+
+        await scooters.getLogById(logId);
 
         const data = JSON.parse(localStorage.getItem("scooterTime"));
         const startTime = data[0].start_time;
